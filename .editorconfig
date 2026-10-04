@@ -1,0 +1,38 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{csproj,props,targets,xml,xaml,json}]
+indent_size = 2
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_prefer_braces = true:suggestion
+dotnet_sort_system_directives_first = true
+
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_rule.private_fields_underscore.severity = suggestion
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+# CA1848: LoggerMessage delegates - not required for an interactive desktop app.
+dotnet_diagnostic.CA1848.severity = none
+# CA1000: Static factory members on generic result types are intentional.
+dotnet_diagnostic.CA1000.severity = none
+# CA2254: Structured log templates are used intentionally with Serilog.
+dotnet_diagnostic.CA2254.severity = suggestion
+
+[tests/**.cs]
+# Test names use Method_Scenario_Expectation.
+dotnet_diagnostic.CA1707.severity = none

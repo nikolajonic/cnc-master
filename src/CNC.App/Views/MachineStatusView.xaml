@@ -1,0 +1,126 @@
+<UserControl x:Class="CNC.App.Views.MachineStatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CNC.App.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MachineStatusViewModel}">
+
+  <UserControl.Resources>
+    <Style x:Key="StatusField" TargetType="StackPanel">
+      <Setter Property="Margin" Value="10,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+  </UserControl.Resources>
+
+  <Border Background="{StaticResource PanelBackgroundBrush}"
+          BorderBrush="{StaticResource BorderBrush}"
+          BorderThickness="0,0,0,1"
+          Padding="6,6">
+    <DockPanel LastChildFill="False">
+
+      <!-- Machine state -->
+      <Border DockPanel.Dock="Left" Style="{StaticResource Badge}" BorderBrush="{StaticResource AccentBrush}" MinWidth="130">
+        <StackPanel>
+          <TextBlock Style="{StaticResource LabelText}" Text="MACHINE" HorizontalAlignment="Center" />
+          <TextBlock Style="{StaticResource BadgeText}" Foreground="{StaticResource AccentBrush}" Text="{Binding MachineState}" />
+        </StackPanel>
+      </Border>
+
+      <!-- Connection -->
+      <Border DockPanel.Dock="Left">
+        <Border.Style>
+          <Style TargetType="Border" BasedOn="{StaticResource Badge}">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
+        <StackPanel>
+          <TextBlock Style="{StaticResource LabelText}" Text="LINK" HorizontalAlignment="Center" />
+          <TextBlock HorizontalAlignment="Center">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource BadgeText}">
+                <Setter Property="Text" Value="DISCONNECTED" />
+                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                    <Setter Property="Text" Value="CONNECTED" />
+                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+        </StackPanel>
+      </Border>
+
+      <!-- Controller mode -->
+      <Border DockPanel.Dock="Left" Style="{StaticResource Badge}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource LabelText}" Text="MODE" HorizontalAlignment="Center" />
+          <TextBlock Style="{StaticResource BadgeText}" Text="{Binding ControllerMode}" />
+        </StackPanel>
+      </Border>
+
+      <!-- Emergency stop -->
+      <Border DockPanel.Dock="Left" MinWidth="120">
+        <Border.Style>
+          <Style TargetType="Border" BasedOn="{StaticResource Badge}">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsEmergencyStopActive}" Value="True">
+                <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
+        <StackPanel>
+          <TextBlock Style="{StaticResource LabelText}" Text="E-STOP" HorizontalAlignment="Center" />
+          <TextBlock>
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource BadgeText}">
+                <Setter Property="Text" Value="CLEAR" />
+                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsEmergencyStopActive}" Value="True">
+                    <Setter Property="Text" Value="ACTIVE" />
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+        </StackPanel>
+      </Border>
+
+      <StackPanel DockPanel.Dock="Left" Style="{StaticResource StatusField}">
+        <TextBlock Style="{StaticResource LabelText}" Text="FEED" />
+        <TextBlock Style="{StaticResource ValueText}" Text="{Binding FeedRate, StringFormat={}{0:0.0}}" />
+      </StackPanel>
+
+      <StackPanel DockPanel.Dock="Left" Style="{StaticResource StatusField}">
+        <TextBlock Style="{StaticResource LabelText}" Text="SPINDLE RPM" />
+        <TextBlock Style="{StaticResource ValueText}" Text="{Binding SpindleRpm, StringFormat={}{0:0}}" />
+      </StackPanel>
+
+      <StackPanel DockPanel.Dock="Left" Style="{StaticResource StatusField}" MinWidth="240">
+        <TextBlock Style="{StaticResource LabelText}" Text="ACTIVE LINE" />
+        <TextBlock Style="{StaticResource ValueText}" FontSize="{StaticResource FontSizeLarge}" Text="{Binding ActiveLine}" TextTrimming="CharacterEllipsis" />
+      </StackPanel>
+
+      <StackPanel DockPanel.Dock="Left" Style="{StaticResource StatusField}" MinWidth="180">
+        <TextBlock Style="{StaticResource LabelText}" Text="PROGRAM" />
+        <TextBlock Style="{StaticResource TextBase}" FontSize="{StaticResource FontSizeLarge}" Text="{Binding ProgramName}" TextTrimming="CharacterEllipsis" />
+      </StackPanel>
+
+      <StackPanel DockPanel.Dock="Right" Style="{StaticResource StatusField}">
+        <TextBlock Style="{StaticResource LabelText}" Text="CONTROLLER" />
+        <TextBlock Style="{StaticResource TextBase}" FontSize="{StaticResource FontSizeLarge}" Text="{Binding ControllerStatus}" />
+      </StackPanel>
+    </DockPanel>
+  </Border>
+</UserControl>

@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Colors.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <FontFamily x:Key="UiFont">Segoe UI</FontFamily>
+  <FontFamily x:Key="MonoFont">Consolas, Cascadia Mono, Courier New</FontFamily>
+
+  <sys:Double x:Key="FontSizeSmall">11</sys:Double>
+  <sys:Double x:Key="FontSizeNormal">13</sys:Double>
+  <sys:Double x:Key="FontSizeLarge">16</sys:Double>
+  <sys:Double x:Key="FontSizeValue">20</sys:Double>
+  <sys:Double x:Key="FontSizeDroAxis">34</sys:Double>
+  <sys:Double x:Key="FontSizeDro">44</sys:Double>
+
+  <Style x:Key="TextBase" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource UiFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}" />
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style x:Key="LabelText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+  </Style>
+
+  <Style x:Key="PanelHeaderText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+  </Style>
+
+  <Style x:Key="ValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeValue}" />
+  </Style>
+
+  <Style x:Key="DroAxisText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeDroAxis}" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+  </Style>
+
+  <Style x:Key="DroValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeDro}" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
+  </Style>
+
+  <Style x:Key="DroSecondaryValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
+    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
+  </Style>
+
+</ResourceDictionary>

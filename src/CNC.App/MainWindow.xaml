@@ -1,0 +1,97 @@
+<Window x:Class="CNC.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CNC.App.ViewModels"
+        xmlns:views="clr-namespace:CNC.App.Views"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        Title="{Binding Title}"
+        Width="1600" Height="900"
+        MinWidth="1280" MinHeight="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="{StaticResource WindowBackgroundBrush}"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        FontFamily="{StaticResource UiFont}"
+        FontSize="{StaticResource FontSizeNormal}"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Title bar -->
+    <Border Grid.Row="0"
+            Background="{StaticResource PanelHeaderBackgroundBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="8,2">
+      <DockPanel LastChildFill="False">
+        <TextBlock DockPanel.Dock="Left"
+                   Style="{StaticResource TextBase}"
+                   FontSize="{StaticResource FontSizeLarge}"
+                   FontWeight="Bold"
+                   Text="{Binding Title}" />
+        <Button DockPanel.Dock="Right" Content="Exit" MinWidth="70" Command="{Binding ExitCommand}" />
+        <Button DockPanel.Dock="Right" Content="About" MinWidth="70" Command="{Binding AboutCommand}" />
+      </DockPanel>
+    </Border>
+
+    <!-- Machine status strip -->
+    <views:MachineStatusView Grid.Row="1" DataContext="{Binding Status}" />
+
+    <!-- Main work area -->
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="460" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="400" />
+      </Grid.ColumnDefinitions>
+
+      <DockPanel Grid.Column="0">
+        <views:DroView DockPanel.Dock="Top" DataContext="{Binding Dro}" />
+        <views:JogView DockPanel.Dock="Top" DataContext="{Binding Jog}" />
+        <Border />
+      </DockPanel>
+
+      <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="3*" />
+          <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <views:ToolpathView Grid.Row="0" DataContext="{Binding Toolpath}" />
+        <views:GCodeViewerView Grid.Row="1" DataContext="{Binding GCode}" />
+      </Grid>
+
+      <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Focusable="False">
+        <StackPanel>
+          <views:MachineControlsView DataContext="{Binding MachineControls}" />
+          <views:ProgramControlView DataContext="{Binding Program}" />
+          <views:FeedSpindleView DataContext="{Binding FeedSpindle}" />
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+
+    <!-- Status bar -->
+    <Border Grid.Row="3"
+            Background="{StaticResource PanelHeaderBackgroundBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="8,3">
+      <DockPanel>
+        <TextBlock DockPanel.Dock="Right" Style="{StaticResource LabelText}">
+          <Run Text="Logs: " /><Run Text="{Binding LogsDirectory, Mode=OneWay}" />
+        </TextBlock>
+        <TextBlock Style="{StaticResource TextBase}" Text="{Binding StatusMessage}" />
+      </DockPanel>
+    </Border>
+  </Grid>
+</Window>

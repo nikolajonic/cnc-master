@@ -1,0 +1,45 @@
+<UserControl x:Class="CNC.App.Views.MachineControlsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CNC.App.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MachineControlsViewModel}">
+
+  <HeaderedContentControl Style="{StaticResource Panel}" Header="MACHINE">
+    <StackPanel>
+      <Button Style="{StaticResource EmergencyStopButton}"
+              Content="EMERGENCY STOP"
+              Command="{Binding EmergencyStopCommand}"
+              ToolTip="Immediately halts all motion and the spindle. Requires Reset to recover." />
+
+      <UniformGrid Columns="2" Margin="0,6,0,0">
+        <Button Style="{StaticResource AccentButton}" MinHeight="44" Command="{Binding CycleStartCommand}">
+          <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="CYCLE START" />
+            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F5" />
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource WarningButton}" MinHeight="44" Command="{Binding FeedHoldCommand}">
+          <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="FEED HOLD" />
+            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F6 / Space" />
+          </StackPanel>
+        </Button>
+        <Button MinHeight="44" Command="{Binding StopCommand}">
+          <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="STOP" />
+            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F7" />
+          </StackPanel>
+        </Button>
+        <Button MinHeight="44" Command="{Binding ResetCommand}">
+          <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="RESET" />
+            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F8" />
+          </StackPanel>
+        </Button>
+      </UniformGrid>
+    </StackPanel>
+  </HeaderedContentControl>
+</UserControl>

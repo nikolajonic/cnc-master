@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>CNC.Simulation</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CNC.Core\CNC.Core.csproj" />
+    <ProjectReference Include="..\CNC.Hardware\CNC.Hardware.csproj" />
+    <ProjectReference Include="..\CNC.Motion\CNC.Motion.csproj" />
+  </ItemGroup>
+
+</Project>
