@@ -7,36 +7,37 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:MachineControlsViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}" Header="MACHINE">
+  <HeaderedContentControl Style="{StaticResource Card}" Header="Machine">
     <StackPanel>
       <Button Style="{StaticResource EmergencyStopButton}"
-              Content="EMERGENCY STOP"
+              Margin="0"
+              Content="Emergency stop"
               Command="{Binding EmergencyStopCommand}"
               ToolTip="Immediately halts all motion and the spindle. Requires Reset to recover." />
 
-      <UniformGrid Columns="2" Margin="0,6,0,0">
-        <Button Style="{StaticResource AccentButton}" MinHeight="44" Command="{Binding CycleStartCommand}">
+      <UniformGrid Columns="2" Margin="-3,10,-3,-3">
+        <Button Style="{StaticResource PrimaryButton}" MinHeight="48" Command="{Binding CycleStartCommand}">
           <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Text="CYCLE START" />
-            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F5" />
+            <TextBlock HorizontalAlignment="Center" Text="Cycle start" />
+            <TextBlock HorizontalAlignment="Center" FontSize="11" Opacity="0.75" Text="F5" />
           </StackPanel>
         </Button>
-        <Button Style="{StaticResource WarningButton}" MinHeight="44" Command="{Binding FeedHoldCommand}">
+        <Button Style="{StaticResource WarningButton}" MinHeight="48" Command="{Binding FeedHoldCommand}">
           <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Text="FEED HOLD" />
-            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F6 / Space" />
+            <TextBlock HorizontalAlignment="Center" Text="Feed hold" />
+            <TextBlock HorizontalAlignment="Center" FontSize="11" Opacity="0.75" Text="F6 / Space" />
           </StackPanel>
         </Button>
-        <Button MinHeight="44" Command="{Binding StopCommand}">
+        <Button MinHeight="48" Command="{Binding StopCommand}">
           <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Text="STOP" />
-            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F7" />
+            <TextBlock HorizontalAlignment="Center" Text="Stop" />
+            <TextBlock HorizontalAlignment="Center" FontSize="11" Opacity="0.75" Text="F7" />
           </StackPanel>
         </Button>
-        <Button MinHeight="44" Command="{Binding ResetCommand}">
+        <Button MinHeight="48" Command="{Binding ResetCommand}">
           <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Text="RESET" />
-            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LabelText}" Text="F8" />
+            <TextBlock HorizontalAlignment="Center" Text="Reset" />
+            <TextBlock HorizontalAlignment="Center" FontSize="11" Opacity="0.75" Text="F8" />
           </StackPanel>
         </Button>
       </UniformGrid>

@@ -7,42 +7,47 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:ProgramControlViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}" Header="PROGRAM">
-    <StackPanel>
-      <TextBlock Style="{StaticResource LabelText}" Text="FILE" />
-      <TextBlock Style="{StaticResource TextBase}" FontSize="{StaticResource FontSizeLarge}" Text="{Binding ProgramName}" TextTrimming="CharacterEllipsis" Margin="0,0,0,6" />
-
-      <UniformGrid Columns="3">
-        <Button Content="LOAD" Command="{Binding LoadCommand}" />
-        <Button Content="RUN" Style="{StaticResource AccentButton}" Command="{Binding RunCommand}" />
-        <Button Content="PAUSE" Style="{StaticResource WarningButton}" Command="{Binding PauseCommand}" />
-        <Button Content="RESUME" Command="{Binding ResumeCommand}" />
-        <Button Content="STOP" Command="{Binding StopCommand}" />
-        <Button Content="RESET" Command="{Binding ResetCommand}" />
-      </UniformGrid>
-
-      <Rectangle Style="{StaticResource Separator}" />
-
+  <HeaderedContentControl Style="{StaticResource Card}">
+    <HeaderedContentControl.Header>
       <DockPanel>
-        <TextBlock Style="{StaticResource LabelText}" Text="LINE" />
-        <TextBlock DockPanel.Dock="Right" Style="{StaticResource ValueText}" FontSize="{StaticResource FontSizeLarge}" Text="{Binding LineText}" HorizontalAlignment="Right" />
+        <TextBlock Text="Program" />
+        <Button DockPanel.Dock="Right" Margin="0,-6,0,-6" Content="Open file…" Command="{Binding LoadCommand}" />
+        <Border />
       </DockPanel>
-      <ProgressBar Margin="0,4" Minimum="0" Maximum="100" Value="{Binding ProgressPercent, Mode=OneWay}" />
+    </HeaderedContentControl.Header>
 
-      <Grid Margin="0,4,0,0">
+    <StackPanel>
+      <TextBlock Style="{StaticResource TextBase}" FontSize="{StaticResource FontSizeTitle}" Text="{Binding ProgramName}" TextTrimming="CharacterEllipsis" />
+
+      <ProgressBar Margin="0,12,0,6" Minimum="0" Maximum="100" Value="{Binding ProgressPercent, Mode=OneWay}" />
+
+      <Grid>
         <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-          <TextBlock Style="{StaticResource LabelText}" Text="ELAPSED" />
-          <TextBlock Style="{StaticResource ValueText}" Text="{Binding ElapsedText}" />
+          <TextBlock Style="{StaticResource Caption}" Text="Line" />
+          <TextBlock Style="{StaticResource ValueText}" FontSize="{StaticResource FontSizeTitle}" Text="{Binding LineText}" />
         </StackPanel>
         <StackPanel Grid.Column="1">
-          <TextBlock Style="{StaticResource LabelText}" Text="ESTIMATED" />
-          <TextBlock Style="{StaticResource ValueText}" Text="{Binding EstimatedText}" />
+          <TextBlock Style="{StaticResource Caption}" Text="Elapsed" />
+          <TextBlock Style="{StaticResource ValueText}" FontSize="{StaticResource FontSizeTitle}" Text="{Binding ElapsedText}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2">
+          <TextBlock Style="{StaticResource Caption}" Text="Remaining (est.)" />
+          <TextBlock Style="{StaticResource ValueText}" FontSize="{StaticResource FontSizeTitle}" Text="{Binding EstimatedText}" />
         </StackPanel>
       </Grid>
+
+      <UniformGrid Columns="3" Margin="-3,12,-3,-3">
+        <Button Content="Run" Style="{StaticResource PrimaryButton}" Command="{Binding RunCommand}" />
+        <Button Content="Pause" Style="{StaticResource WarningButton}" Command="{Binding PauseCommand}" />
+        <Button Content="Resume" Command="{Binding ResumeCommand}" />
+        <Button Content="Stop" Command="{Binding StopCommand}" />
+        <Button Content="Reset" Command="{Binding ResetCommand}" />
+      </UniformGrid>
     </StackPanel>
   </HeaderedContentControl>
 </UserControl>

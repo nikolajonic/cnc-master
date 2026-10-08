@@ -6,15 +6,16 @@
     <ResourceDictionary Source="Colors.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
-  <FontFamily x:Key="UiFont">Segoe UI</FontFamily>
-  <FontFamily x:Key="MonoFont">Consolas, Cascadia Mono, Courier New</FontFamily>
+  <FontFamily x:Key="UiFont">Segoe UI Variable Text, Segoe UI</FontFamily>
+  <FontFamily x:Key="DisplayFont">Segoe UI Variable Display, Segoe UI</FontFamily>
+  <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas, Courier New</FontFamily>
 
-  <sys:Double x:Key="FontSizeSmall">11</sys:Double>
+  <sys:Double x:Key="FontSizeSmall">12</sys:Double>
   <sys:Double x:Key="FontSizeNormal">13</sys:Double>
-  <sys:Double x:Key="FontSizeLarge">16</sys:Double>
-  <sys:Double x:Key="FontSizeValue">20</sys:Double>
-  <sys:Double x:Key="FontSizeDroAxis">34</sys:Double>
-  <sys:Double x:Key="FontSizeDro">44</sys:Double>
+  <sys:Double x:Key="FontSizeTitle">14</sys:Double>
+  <sys:Double x:Key="FontSizeValue">18</sys:Double>
+  <sys:Double x:Key="FontSizeDroAxis">22</sys:Double>
+  <sys:Double x:Key="FontSizeDro">40</sys:Double>
 
   <Style x:Key="TextBase" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource UiFont}" />
@@ -23,39 +24,44 @@
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
-  <Style x:Key="LabelText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+  <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
     <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
     <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
   </Style>
 
-  <Style x:Key="PanelHeaderText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
-    <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+  <Style x:Key="CardTitle" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
     <Setter Property="FontWeight" Value="SemiBold" />
-    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
   </Style>
 
+  <!-- Readouts use tabular digits so values do not jitter horizontally while they change. -->
   <Style x:Key="ValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
-    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
     <Setter Property="FontSize" Value="{StaticResource FontSizeValue}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
   </Style>
 
   <Style x:Key="DroAxisText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
-    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
     <Setter Property="FontSize" Value="{StaticResource FontSizeDroAxis}" />
-    <Setter Property="FontWeight" Value="Bold" />
-    <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{StaticResource AccentTextBrush}" />
   </Style>
 
   <Style x:Key="DroValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
-    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
     <Setter Property="FontSize" Value="{StaticResource FontSizeDro}" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
     <Setter Property="HorizontalAlignment" Value="Right" />
   </Style>
 
-  <Style x:Key="DroSecondaryValueText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
-    <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
-    <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
+  <Style x:Key="DroSecondaryText" TargetType="TextBlock" BasedOn="{StaticResource TextBase}">
+    <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+    <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
     <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
     <Setter Property="HorizontalAlignment" Value="Right" />
   </Style>
 

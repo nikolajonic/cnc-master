@@ -2,16 +2,14 @@ using CNC.App.Mvvm;
 
 namespace CNC.App.ViewModels;
 
-/// <summary>Toolpath viewer. Rendering is implemented in Phase 7; Phase 1 only offers the view selector.</summary>
+/// <summary>3D toolpath viewer. Rendering, orbit, zoom and pan are implemented in Phase 7.</summary>
 public sealed class ToolpathViewModel : ObservableObject
 {
-    private string _selectedPlane = "XY";
+    private bool _hasProgram;
 
-    public IReadOnlyList<string> Planes { get; } = ["XY", "XZ", "YZ"];
-
-    public string SelectedPlane
+    public bool HasProgram
     {
-        get => _selectedPlane;
-        set => SetProperty(ref _selectedPlane, value);
+        get => _hasProgram;
+        set => SetProperty(ref _hasProgram, value);
     }
 }

@@ -1,5 +1,12 @@
 using CNC.Core.Abstractions;
+using CNC.Core.Configuration;
+using CNC.Core.Machine;
+using CNC.Hardware.Motion;
+using CNC.Infrastructure.Configuration;
+using CNC.Infrastructure.Logging;
 using CNC.Infrastructure.Paths;
+using CNC.Motion.Planning;
+using CNC.Simulation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog.Core;
@@ -24,6 +31,18 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton(paths);
         services.TryAddSingleton(levelSwitch);
         services.TryAddSingleton<IClock, SystemClock>();
+
+        services.TryAddSingleton<IMachineStateMachine>(_ => new MachineStateMachine());
+        services.TryAddSingleton<IMachineConfigurationStore, JsonMachineConfigurationStore>();
+        services.TryAddSingleton<IMachineConfigurationService, MachineConfigurationService>();
+
+        services.TryAddSingleton(new PlannerOptions());
+        services.TryAddSingleton<MotionPlanner>();
+
+        services.TryAddSingleton(new VirtualMotionControllerOptions());
+        services.TryAddSingleton<IMotionController, VirtualMotionController>();
+
+        services.AddHostedService<MachineEventLoggingService>();
 
         return services;
     }

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using CNC.App.Composition;
 using CNC.App.Services;
+using CNC.Core.Configuration;
 using CNC.Infrastructure.Logging;
 using CNC.Infrastructure.Paths;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ public partial class App : Application
     private IHost? _host;
     private Mutex? _singleInstanceMutex;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
@@ -55,7 +56,8 @@ public partial class App : Application
         try
         {
             _host = AppHostBuilder.Build(paths, levelSwitch, Dispatcher);
-            _host.Start();
+            await _host.StartAsync().ConfigureAwait(true);
+            await LoadMachineConfigurationAsync(_host.Services).ConfigureAwait(true);
 
             var mainWindow = _host.Services.GetRequiredService<MainWindow>();
             MainWindow = mainWindow;
@@ -111,6 +113,19 @@ public partial class App : Application
         }
 
         base.OnExit(e);
+    }
+
+    private static async Task LoadMachineConfigurationAsync(IServiceProvider services)
+    {
+        var configuration = services.GetRequiredService<IMachineConfigurationService>();
+        var result = await configuration.LoadAsync().ConfigureAwait(true);
+
+        if (result.Status == ConfigurationLoadStatus.RecoveredWithDefaults)
+        {
+            services.GetRequiredService<IDialogService>().ShowWarning(
+                result.Message ?? "The machine configuration could not be loaded; defaults are in use.",
+                "CNC Control - Machine Configuration");
+        }
     }
 
     private void RegisterGlobalExceptionHandlers()

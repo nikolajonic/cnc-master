@@ -8,6 +8,8 @@
     <RootNamespace>CNC.App</RootNamespace>
     <AssemblyName>CncControl</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Required by the LibraryImport source generator for the DWM title bar call. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:GCodeViewerViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}" Header="G-CODE">
+  <HeaderedContentControl Style="{StaticResource Card}" Header="G-code">
     <TextBox Text="{Binding Text, Mode=OneWay}"
              IsReadOnly="True"
              AcceptsReturn="True"
@@ -15,7 +15,9 @@
              VerticalContentAlignment="Top"
              HorizontalScrollBarVisibility="Auto"
              VerticalScrollBarVisibility="Auto"
-             FontSize="{StaticResource FontSizeLarge}"
+             FontFamily="{StaticResource MonoFont}"
+             BorderThickness="0"
+             Padding="12,10"
              Margin="0" />
   </HeaderedContentControl>
 </UserControl>

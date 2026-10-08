@@ -1,28 +1,55 @@
 using CNC.App.Mvvm;
+using CNC.App.Services;
+using CNC.Core.Machine;
 
 namespace CNC.App.ViewModels;
 
 /// <summary>
-/// Top status strip. Values are placeholders until the machine state model (Phase 2) and the
-/// controller abstraction are connected.
+/// Top status strip. Machine state is live; connection, feed, spindle and program values are
+/// placeholders until the controller (Phase 4) and execution (Phase 6) are connected.
 /// </summary>
 public sealed class MachineStatusViewModel : ObservableObject
 {
-    private string _machineState = "Disconnected";
+    private readonly IDispatcherService _dispatcher;
+    private MachineState _state;
     private bool _isConnected;
     private string _controllerMode = "Simulation";
-    private bool _isEmergencyStopActive;
     private double _feedRate;
     private double _spindleRpm;
     private string _activeLine = "-";
     private string _programName = "(none)";
     private string _controllerStatus = "No controller";
 
-    public string MachineState
+    public MachineStatusViewModel(IMachineStateMachine stateMachine, IDispatcherService dispatcher)
     {
-        get => _machineState;
-        set => SetProperty(ref _machineState, value);
+        _dispatcher = dispatcher;
+        _state = stateMachine.Current;
+        stateMachine.StateChanged += OnStateChanged;
     }
+
+    public MachineState State
+    {
+        get => _state;
+        private set
+        {
+            if (SetProperty(ref _state, value))
+            {
+                OnPropertyChanged(nameof(StateText));
+                OnPropertyChanged(nameof(IsEmergencyStopActive));
+                OnPropertyChanged(nameof(IsAlarmActive));
+            }
+        }
+    }
+
+    public string StateText => State switch
+    {
+        MachineState.EmergencyStop => "Emergency stop",
+        _ => State.ToString(),
+    };
+
+    public bool IsEmergencyStopActive => State == MachineState.EmergencyStop;
+
+    public bool IsAlarmActive => State == MachineState.Alarm;
 
     public bool IsConnected
     {
@@ -34,12 +61,6 @@ public sealed class MachineStatusViewModel : ObservableObject
     {
         get => _controllerMode;
         set => SetProperty(ref _controllerMode, value);
-    }
-
-    public bool IsEmergencyStopActive
-    {
-        get => _isEmergencyStopActive;
-        set => SetProperty(ref _isEmergencyStopActive, value);
     }
 
     public double FeedRate
@@ -70,5 +91,10 @@ public sealed class MachineStatusViewModel : ObservableObject
     {
         get => _controllerStatus;
         set => SetProperty(ref _controllerStatus, value);
+    }
+
+    private void OnStateChanged(object? sender, MachineStateChangedEventArgs e)
+    {
+        _ = _dispatcher.InvokeAsync(() => State = e.Current);
     }
 }

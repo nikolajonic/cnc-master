@@ -1,4 +1,5 @@
 using System.Windows;
+using CNC.App.Interop;
 using CNC.App.ViewModels;
 
 namespace CNC.App;
@@ -9,5 +10,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = viewModel;
+        SourceInitialized += (_, _) => DarkTitleBar.Apply(this);
     }
 }

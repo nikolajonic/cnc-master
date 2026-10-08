@@ -1,5 +1,6 @@
 using CNC.App.Mvvm;
 using CNC.App.Services;
+using CNC.Core.Configuration;
 using CNC.Infrastructure.Paths;
 
 namespace CNC.App.ViewModels;
@@ -9,6 +10,7 @@ public sealed class MainWindowViewModel : ObservableObject
     private readonly IDialogService _dialogs;
     private readonly IAppPaths _paths;
     private string _statusMessage = "Ready. Simulation mode - no controller connected.";
+    private string _machineName;
 
     public MainWindowViewModel(
         MachineStatusViewModel status,
@@ -21,8 +23,13 @@ public sealed class MainWindowViewModel : ObservableObject
         MachineControlsViewModel machineControls,
         IDialogService dialogs,
         IShellService shell,
-        IAppPaths paths)
+        IAppPaths paths,
+        IMachineConfigurationService configuration,
+        IDispatcherService dispatcher)
     {
+        _machineName = configuration.Current.Name;
+        configuration.Changed += (_, e) => _ = dispatcher.InvokeAsync(() => MachineName = e.Current.Name);
+
         Status = status;
         Dro = dro;
         Jog = jog;
@@ -38,7 +45,21 @@ public sealed class MainWindowViewModel : ObservableObject
         AboutCommand = new RelayCommand(ShowAbout);
     }
 
-    public string Title { get; } = "CNC Control";
+    public string Title => $"CNC Control - {MachineName}";
+
+    public string ApplicationName { get; } = "CNC Control";
+
+    public string MachineName
+    {
+        get => _machineName;
+        private set
+        {
+            if (SetProperty(ref _machineName, value))
+            {
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+    }
 
     public MachineStatusViewModel Status { get; }
 

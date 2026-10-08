@@ -1,4 +1,7 @@
 using CNC.App.Mvvm;
+using CNC.App.Services;
+using CNC.Core.Configuration;
+using CNC.Core.Units;
 
 namespace CNC.App.ViewModels;
 
@@ -7,10 +10,16 @@ public sealed class DroViewModel : ObservableObject
 {
     private const int DefaultDecimalPlaces = 4;
 
+    private readonly IDispatcherService _dispatcher;
     private bool _isRelative;
+    private string _units;
 
-    public DroViewModel()
+    public DroViewModel(IMachineConfigurationService configuration, IDispatcherService dispatcher)
     {
+        _dispatcher = dispatcher;
+        _units = configuration.Current.Units.LengthAbbreviation();
+        configuration.Changed += OnConfigurationChanged;
+
         Axes =
         [
             new AxisReadoutViewModel("X", DefaultDecimalPlaces),
@@ -37,13 +46,22 @@ public sealed class DroViewModel : ObservableObject
         }
     }
 
-    public string DistanceModeText => IsRelative ? "REL" : "ABS";
+    public string DistanceModeText => IsRelative ? "Relative" : "Absolute";
 
     public string WorkCoordinateSystem { get; } = "G54";
 
-    public string Units { get; } = "mm";
+    public string Units
+    {
+        get => _units;
+        private set => SetProperty(ref _units, value);
+    }
 
     public IRaiseCanExecuteChanged ZeroAxisCommand { get; }
 
     public IRaiseCanExecuteChanged ZeroAllCommand { get; }
+
+    private void OnConfigurationChanged(object? sender, MachineConfigurationChangedEventArgs e)
+    {
+        _ = _dispatcher.InvokeAsync(() => Units = e.Current.Units.LengthAbbreviation());
+    }
 }

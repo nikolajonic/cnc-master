@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CNC.Core\CNC.Core.csproj" />
+    <ProjectReference Include="..\CNC.Motion\CNC.Motion.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,50 +7,42 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:DroViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}">
+  <HeaderedContentControl Style="{StaticResource Card}">
     <HeaderedContentControl.Header>
       <DockPanel>
-        <TextBlock Text="DRO" />
-        <TextBlock DockPanel.Dock="Right" Margin="12,0,0,0" Text="{Binding Units}" />
-        <TextBlock DockPanel.Dock="Right" Margin="12,0,0,0" Foreground="{StaticResource AccentBrush}" Text="{Binding WorkCoordinateSystem}" />
+        <TextBlock Text="Position" />
+        <Border DockPanel.Dock="Right" Style="{StaticResource Chip}" Margin="6,0,0,0" ToolTip="Display units">
+          <TextBlock Style="{StaticResource ChipText}" Foreground="{StaticResource TextSecondaryBrush}" Text="{Binding Units}" />
+        </Border>
+        <Border DockPanel.Dock="Right" Style="{StaticResource Chip}" Background="{StaticResource AccentSoftBrush}" ToolTip="Active work coordinate system">
+          <TextBlock Style="{StaticResource ChipText}" Foreground="{StaticResource AccentTextBrush}" Text="{Binding WorkCoordinateSystem}" />
+        </Border>
         <Border />
       </DockPanel>
     </HeaderedContentControl.Header>
 
     <StackPanel>
-      <!-- Column headings -->
-      <Grid Margin="0,0,0,2">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="44" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="110" />
-          <ColumnDefinition Width="64" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="1" Style="{StaticResource LabelText}" HorizontalAlignment="Right" Text="WORK" />
-        <TextBlock Grid.Column="2" Style="{StaticResource LabelText}" HorizontalAlignment="Right" Text="MACHINE" />
-      </Grid>
-
       <ItemsControl ItemsSource="{Binding Axes}" Focusable="False">
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="{x:Type vm:AxisReadoutViewModel}">
-            <Border Background="{StaticResource InsetBackgroundBrush}"
-                    BorderBrush="{StaticResource BorderBrush}"
-                    BorderThickness="1"
-                    Margin="0,2"
-                    Padding="4,0">
+            <Border Background="{StaticResource InsetBrush}" CornerRadius="8" Margin="0,0,0,6" Padding="14,6,8,6">
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="40" />
+                  <ColumnDefinition Width="32" />
                   <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="110" />
-                  <ColumnDefinition Width="64" />
+                  <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource DroAxisText}" Text="{Binding AxisName}" />
-                <TextBlock Grid.Column="1" Style="{StaticResource DroValueText}" Text="{Binding WorkPositionText}" />
-                <TextBlock Grid.Column="2" Style="{StaticResource DroSecondaryValueText}" Text="{Binding MachinePositionText}" />
-                <Button Grid.Column="3"
-                        Content="ZERO"
-                        FontSize="{StaticResource FontSizeSmall}"
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                  <TextBlock Style="{StaticResource DroValueText}" Text="{Binding WorkPositionText}" />
+                  <TextBlock Style="{StaticResource DroSecondaryText}" ToolTip="Machine coordinate">
+                    <Run Text="Machine " FontSize="{StaticResource FontSizeSmall}" /><Run Text="{Binding MachinePositionText, Mode=OneWay}" />
+                  </TextBlock>
+                </StackPanel>
+                <Button Grid.Column="2"
+                        Margin="12,0,0,0"
+                        Content="Zero"
+                        VerticalAlignment="Center"
                         Command="{Binding DataContext.ZeroAxisCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CommandParameter="{Binding AxisName}"
                         ToolTip="Set the current work position of this axis to zero" />
@@ -60,13 +52,13 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
 
-      <DockPanel Margin="0,4,0,0">
-        <Button DockPanel.Dock="Right" Content="ZERO ALL" MinWidth="90" Command="{Binding ZeroAllCommand}" />
+      <DockPanel Margin="-3,4,-3,-3">
+        <Button DockPanel.Dock="Right" Content="Zero all" Command="{Binding ZeroAllCommand}" />
         <ToggleButton DockPanel.Dock="Left"
-                      MinWidth="70"
+                      MinWidth="90"
                       IsChecked="{Binding IsRelative}"
                       Content="{Binding DistanceModeText}"
-                      ToolTip="Toggle absolute / relative display" />
+                      ToolTip="Switch between absolute and relative display" />
         <Border />
       </DockPanel>
     </StackPanel>

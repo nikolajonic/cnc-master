@@ -7,19 +7,20 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:JogViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}" Header="JOG">
+  <HeaderedContentControl Style="{StaticResource Card}" Header="Jog">
     <StackPanel>
-      <TextBlock Style="{StaticResource LabelText}" Text="STEP" Margin="2,0,0,2" />
+      <TextBlock Style="{StaticResource Caption}" Text="Step size" Margin="0,0,0,4" />
       <ListBox Style="{StaticResource SegmentedListBox}"
+               Margin="0"
                ItemsSource="{Binding JogSteps}"
                SelectedItem="{Binding SelectedStep}" />
 
-      <Grid Margin="0,8,0,0">
+      <Grid Margin="-3,12,-3,-3">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="16" />
+          <ColumnDefinition Width="20" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -29,12 +30,12 @@
         </Grid.RowDefinitions>
 
         <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource JogButton}" Content="Y+" Command="{Binding JogCommand}" CommandParameter="Y+" />
-        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource JogButton}" Content="X-" Command="{Binding JogCommand}" CommandParameter="X-" />
+        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource JogButton}" Content="X−" Command="{Binding JogCommand}" CommandParameter="X-" />
         <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource JogButton}" Content="X+" Command="{Binding JogCommand}" CommandParameter="X+" />
-        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource JogButton}" Content="Y-" Command="{Binding JogCommand}" CommandParameter="Y-" />
+        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource JogButton}" Content="Y−" Command="{Binding JogCommand}" CommandParameter="Y-" />
 
         <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource JogButton}" Content="Z+" Command="{Binding JogCommand}" CommandParameter="Z+" />
-        <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource JogButton}" Content="Z-" Command="{Binding JogCommand}" CommandParameter="Z-" />
+        <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource JogButton}" Content="Z−" Command="{Binding JogCommand}" CommandParameter="Z-" />
       </Grid>
     </StackPanel>
   </HeaderedContentControl>

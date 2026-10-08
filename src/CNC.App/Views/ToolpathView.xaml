@@ -7,49 +7,41 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:ToolpathViewModel}">
 
-  <HeaderedContentControl Style="{StaticResource Panel}">
+  <HeaderedContentControl Style="{StaticResource Card}">
     <HeaderedContentControl.Header>
       <DockPanel>
-        <TextBlock Text="TOOLPATH" />
-        <ListBox DockPanel.Dock="Right"
-                 Width="150"
-                 Style="{StaticResource SegmentedListBox}"
-                 ItemsSource="{Binding Planes}"
-                 SelectedItem="{Binding SelectedPlane}" />
+        <TextBlock Text="Toolpath" />
+        <Border DockPanel.Dock="Right" Style="{StaticResource Chip}" Margin="0">
+          <TextBlock Style="{StaticResource ChipText}" Foreground="{StaticResource TextSecondaryBrush}" Text="3D" />
+        </Border>
         <Border />
       </DockPanel>
     </HeaderedContentControl.Header>
 
-    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" ClipToBounds="True">
+    <Border CornerRadius="8" ClipToBounds="True">
       <Border.Background>
-        <DrawingBrush TileMode="Tile" Viewport="0,0,40,40" ViewportUnits="Absolute" Stretch="None">
-          <DrawingBrush.Drawing>
-            <DrawingGroup>
-              <GeometryDrawing Brush="{StaticResource InsetBackgroundBrush}">
-                <GeometryDrawing.Geometry>
-                  <RectangleGeometry Rect="0,0,40,40" />
-                </GeometryDrawing.Geometry>
-              </GeometryDrawing>
-              <GeometryDrawing>
-                <GeometryDrawing.Pen>
-                  <Pen Brush="{StaticResource PanelHeaderBackgroundBrush}" Thickness="1" />
-                </GeometryDrawing.Pen>
-                <GeometryDrawing.Geometry>
-                  <GeometryGroup>
-                    <LineGeometry StartPoint="0,0" EndPoint="40,0" />
-                    <LineGeometry StartPoint="0,0" EndPoint="0,40" />
-                  </GeometryGroup>
-                </GeometryDrawing.Geometry>
-              </GeometryDrawing>
-            </DrawingGroup>
-          </DrawingBrush.Drawing>
-        </DrawingBrush>
+        <RadialGradientBrush GradientOrigin="0.5,0.35" Center="0.5,0.35" RadiusX="0.9" RadiusY="0.9">
+          <GradientStop Color="#FF1F2228" Offset="0" />
+          <GradientStop Color="{StaticResource InsetColor}" Offset="1" />
+        </RadialGradientBrush>
       </Border.Background>
 
-      <TextBlock HorizontalAlignment="Center"
-                 Style="{StaticResource LabelText}"
-                 FontSize="{StaticResource FontSizeLarge}"
-                 Text="No program loaded" />
+      <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock Style="{StaticResource TextBase}" HorizontalAlignment="Center" FontSize="{StaticResource FontSizeTitle}" Text="No program loaded" />
+          <TextBlock Style="{StaticResource Caption}" HorizontalAlignment="Center" Margin="0,4,0,0" Text="Open a G-code file to preview its toolpath in 3D." />
+        </StackPanel>
+
+        <!-- Orientation indicator (isometric, Z up). -->
+        <Canvas Width="64" Height="64" Margin="12" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsHitTestVisible="False">
+          <Line X1="32" Y1="36" X2="10" Y2="48" Stroke="{StaticResource DangerBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+          <Line X1="32" Y1="36" X2="54" Y2="48" Stroke="#FF46A758" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+          <Line X1="32" Y1="36" X2="32" Y2="10" Stroke="{StaticResource AccentBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+          <TextBlock Canvas.Left="0" Canvas.Top="48" Style="{StaticResource Caption}" FontSize="11" Text="X" />
+          <TextBlock Canvas.Left="56" Canvas.Top="48" Style="{StaticResource Caption}" FontSize="11" Text="Y" />
+          <TextBlock Canvas.Left="29" Canvas.Top="-6" Style="{StaticResource Caption}" FontSize="11" Text="Z" />
+        </Canvas>
+      </Grid>
     </Border>
   </HeaderedContentControl>
 </UserControl>

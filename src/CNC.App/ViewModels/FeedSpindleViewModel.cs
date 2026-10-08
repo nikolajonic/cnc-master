@@ -1,18 +1,27 @@
 using CNC.App.Mvvm;
+using CNC.App.Services;
+using CNC.Core.Configuration;
+using CNC.Core.Units;
 
 namespace CNC.App.ViewModels;
 
 /// <summary>Feed rate override and spindle controls. Spindle commands are enabled in Phase 8.</summary>
 public sealed class FeedSpindleViewModel : ObservableObject
 {
+    private readonly IDispatcherService _dispatcher;
+    private string _feedUnits;
     private double _feedRate;
     private int _selectedFeedOverride = 100;
     private double _spindleRpmSetpoint = 10000;
     private double _spindleActualRpm;
     private string _spindleDirection = "Stopped";
 
-    public FeedSpindleViewModel()
+    public FeedSpindleViewModel(IMachineConfigurationService configuration, IDispatcherService dispatcher)
     {
+        _dispatcher = dispatcher;
+        _feedUnits = configuration.Current.Units.FeedRateAbbreviation();
+        configuration.Changed += OnConfigurationChanged;
+
         SpindleStartCommand = new RelayCommand(static () => { }, static () => false);
         SpindleStopCommand = new RelayCommand(static () => { }, static () => false);
         SpindleForwardCommand = new RelayCommand(static () => { }, static () => false);
@@ -58,4 +67,15 @@ public sealed class FeedSpindleViewModel : ObservableObject
     public IRaiseCanExecuteChanged SpindleForwardCommand { get; }
 
     public IRaiseCanExecuteChanged SpindleReverseCommand { get; }
+
+    public string FeedUnits
+    {
+        get => _feedUnits;
+        private set => SetProperty(ref _feedUnits, value);
+    }
+
+    private void OnConfigurationChanged(object? sender, MachineConfigurationChangedEventArgs e)
+    {
+        _ = _dispatcher.InvokeAsync(() => FeedUnits = e.Current.Units.FeedRateAbbreviation());
+    }
 }

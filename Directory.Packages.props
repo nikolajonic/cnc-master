@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
     <PackageVersion Include="Serilog" Version="4.0.2" />
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
